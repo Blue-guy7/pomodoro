@@ -1,5 +1,6 @@
 from tkinter import *
 import math
+from tkinter import ttk
 def show_exception_and_exit(exc_type, exc_value, tb):
     import traceback
     traceback.print_exception(exc_type, exc_value, tb)
@@ -11,9 +12,10 @@ RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-WORK_MIN = 25
-SHORT_BREAK_MIN = 5
-LONG_BREAK_MIN = 15
+work_min = 25
+short_break_min = 5
+long_break_min = 15
+sessions= ["25:5:15","50:10:30","90:20:45","20:5:10"]
 reps=0
 timer=NONE
 window=Tk()
@@ -39,20 +41,20 @@ def strt_():
     global reps
     global var3
     butt1["state"] = "disabled"
+    combo["state"] = "disabled"
     reps+=1
     if reps%2!=0:
         text1.config(text="WORK TIME",fg=GREEN)
-        count_down(WORK_MIN*60)
-                  
+        count_down(work_min*60)            
     elif reps%8==0:
         text1.config(text="LONG BREAK",fg=RED)
-        count_down(LONG_BREAK_MIN*60)
+        count_down(long_break_min*60)
         reps=0
         var3=""
         text2.config(text=var3)
     elif reps%2==0:
         text1.config(text="SHORT BREAK",fg=PINK)
-        count_down(SHORT_BREAK_MIN*60)
+        count_down(short_break_min*60)
     if reps%2==1 and reps!=1:
         var3+=checkmark
 
@@ -62,13 +64,21 @@ def on_click():
     global var3
     window.after_cancel(timer)
     butt1["state"] = "active"
+    combo["state"] = "active"
     text1.config(text="TIMER",fg=GREEN)
     canvas.itemconfig(var,text="00:00")
     var3=""
     text2.config(text=var3)
     reps=0
-
     return
+
+def handle_selection(event):
+    global work_min,short_break_min,long_break_min
+    selection = event.widget.get()
+    parts = selection.split(":")
+    work_min= int(parts[0])
+    short_break_min= int(parts[1])
+    long_break_min= int(parts[2])
 
 
     
@@ -94,6 +104,10 @@ butt1=Button(text="Start",command=strt_)
 butt1.grid(column=1,row=3)
 butt2=Button(text="Reset",command=on_click)
 butt2.grid(column=3,row=3)
+combo = ttk.Combobox(window, values=sessions, state="readonly")
+combo.grid(column=2,row=3)
+combo.set(sessions[0])
+combo.bind("<<ComboboxSelected>>",handle_selection)
 
 
 
