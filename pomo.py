@@ -57,7 +57,6 @@ def strt_():
         count_down(short_break_min*60)
     if reps%2==1 and reps!=1:
         var3+=checkmark
-
         text2.config(text=var3)
 def on_click():
     global reps
@@ -81,8 +80,6 @@ def handle_selection(event):
     long_break_min= int(parts[2])
 
 
-    
-
 canvas=Canvas(width=200,height=224,bg=YELLOW,highlightthickness=0)
 fg=GREEN
 checkmark="✔"
@@ -91,8 +88,6 @@ count="00:00"
 tomato=PhotoImage(file="tomato.png")
 canvas.create_image(100,112,image=tomato)
 var=canvas.create_text(103,130,text=count,fill="white",font=(FONT_NAME,35,"bold"))
-
-
 
 
 canvas.grid(column=2,row=2)
@@ -105,15 +100,7 @@ butt1.grid(column=1,row=3)
 butt2=Button(text="Reset",command=on_click)
 butt2.grid(column=3,row=3)
 combo = ttk.Combobox(window, values=sessions, state="readonly")
-combo.grid(column=2,row=3)
+combo.grid(column=2,row=4)
 combo.set(sessions[0])
 combo.bind("<<ComboboxSelected>>",handle_selection)
-
-
-
-
-
-
-
-
 window.mainloop( )
